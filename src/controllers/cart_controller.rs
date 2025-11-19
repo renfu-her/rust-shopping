@@ -9,7 +9,7 @@ use crate::models::cart_item::CartItem;
 use crate::middleware::auth::SessionUser;
 
 #[get("/cart")]
-pub async fn index(mut conn: DbConn, user: SessionUser) -> Result<Template, Status> {
+pub async fn index(mut conn: Db, user: SessionUser) -> Result<Template, Status> {
     let cart = match Cart::find_or_create(&mut *conn, user.id) {
         Ok(cart) => cart,
         Err(_) => return Err(Status::InternalServerError),

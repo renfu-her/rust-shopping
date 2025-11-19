@@ -89,7 +89,7 @@ pub async fn show(id: i32, mut conn: Db, user: Option<SessionUser>) -> Result<Te
 }
 
 #[get("/products/create")]
-pub async fn create_page(mut conn: DbConn, _user: SessionUser) -> Template {
+pub async fn create_page(mut conn: Db, _user: SessionUser) -> Template {
     let categories = Category::all(&mut *conn).unwrap_or_default();
     Template::render("products/create", context! {
         categories,
@@ -126,7 +126,7 @@ pub async fn create(
 }
 
 #[get("/products/<id>/edit")]
-pub async fn edit_page(id: i32, mut conn: DbConn, _user: SessionUser) -> Result<Template, Status> {
+pub async fn edit_page(id: i32, mut conn: Db, _user: SessionUser) -> Result<Template, Status> {
     match Product::find_by_id(&mut *conn, id) {
         Ok(product) => {
             let categories = Category::all(&mut *conn).unwrap_or_default();
@@ -164,7 +164,7 @@ pub async fn update(
 }
 
 #[post("/products/<id>/delete")]
-pub async fn delete(id: i32, _user: SessionUser, mut conn: DbConn) -> Result<Redirect, Status> {
+pub async fn delete(id: i32, _user: SessionUser, mut conn: Db) -> Result<Redirect, Status> {
     match Product::delete(&mut *conn, id) {
         Ok(_) => Ok(Redirect::to("/products")),
         Err(_) => Err(Status::NotFound),
