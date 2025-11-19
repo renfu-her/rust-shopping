@@ -1,0 +1,16 @@
+[default]
+port = 8000
+address = "127.0.0.1"
+log = "normal"
+
+[default.template_dir]
+dir = "src/views"
+
+# 資料庫連接設定
+# Rocket 會優先從環境變數讀取，格式為: ROCKET_DATABASES_shopping_db_url
+# 如果環境變數不存在，則使用以下預設值
+# 建議使用 .env 檔案設定 DATABASE_URL，然後設定環境變數:
+# export ROCKET_DATABASES_shopping_db_url=$DATABASE_URL
+[default.databases]
+shopping_db = { url = "mysql://root:password@localhost/shopping" }
+

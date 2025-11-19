@@ -1,0 +1,53 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}新增產品 - 購物網站{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>新增產品</h3>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+                
+                <form method="post" action="/products">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">產品名稱</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">類別</label>
+                        <select class="form-select" id="category_id" name="category_id" required>
+                            <option value="">請選擇類別</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">描述</label>
+                        <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">價格</label>
+                        <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stock" class="form-label">庫存</label>
+                        <input type="number" class="form-control" id="stock" name="stock" min="0" required>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/products" class="btn btn-secondary">取消</a>
+                        <button type="submit" class="btn btn-primary">建立</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

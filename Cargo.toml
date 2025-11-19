@@ -1,0 +1,20 @@
+[package]
+name = "shopping"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket = { version = "0.5", features = ["json", "secrets"] }
+diesel = { version = "2.1", features = ["mysql", "chrono", "r2d2"] }
+tera = "1.19"
+rocket_dyn_templates = { version = "0.1", features = ["tera"] }
+rocket_db_pools = { version = "0.1", features = ["diesel"] }
+bcrypt = "0.15"
+serde = { version = "1.0", features = ["derive"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.6", features = ["v4", "serde"] }
+cookie = "0.18"
+multipart = "0.18"
+r2d2 = "0.8"
+dotenvy = "0.15"
+bigdecimal = { version = "0.4", features = ["serde"] }

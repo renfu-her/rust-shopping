@@ -1,0 +1,82 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}訂單列表 - 購物網站{% endblock %}
+
+{% block content %}
+<h2>我的訂單</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped" id="ordersTable">
+        <thead>
+            <tr>
+                <th>訂單編號</th>
+                <th>總金額</th>
+                <th>狀態</th>
+                <th>建立時間</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>#{{ order.id }}</td>
+                <td>${{ order.total_amount }}</td>
+                <td>
+                    {% if order.status == "pending" %}
+                    <span class="badge bg-warning">待處理</span>
+                    {% elif order.status == "completed" %}
+                    <span class="badge bg-success">已完成</span>
+                    {% elif order.status == "cancelled" %}
+                    <span class="badge bg-danger">已取消</span>
+                    {% else %}
+                    <span class="badge bg-secondary">{{ order.status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ order.created_at }}</td>
+                <td>
+                    <a href="/orders/{{ order.id }}" class="btn btn-sm btn-primary">查看詳情</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if pagination.total_pages > 1 %}
+<nav>
+    <ul class="pagination justify-content-center">
+        {% if pagination.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="/orders?page={{ pagination.current_page - 1 }}">上一頁</a>
+        </li>
+        {% endif %}
+        
+        {% for page in range(start=1, end=pagination.total_pages + 1) %}
+        <li class="page-item {% if page == pagination.current_page %}active{% endif %}">
+            <a class="page-link" href="/orders?page={{ page }}">{{ page }}</a>
+        </li>
+        {% endfor %}
+        
+        {% if pagination.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="/orders?page={{ pagination.current_page + 1 }}">下一頁</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+$(document).ready(function() {
+    $('#ordersTable').DataTable({
+        order: [[0, 'desc']],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-Hant.json'
+        }
+    });
+});
+</script>
+{% endblock %}
+
